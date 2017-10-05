@@ -1,5 +1,5 @@
 /**
- * 
+ * 1x1 Test für Meine Chance. This is Public Domain.
  */
 package de.itter.school.math;
 
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * @author eriki
+ * @author Erik Itter
  *
  */
 public class OneTimesOne {
