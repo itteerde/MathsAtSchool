@@ -1,5 +1,5 @@
 /**
- * 
+ * Meine Chance, This piece is in Public Domain
  */
 package de.itter.school.math;
 
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * @author eriki
+ * @author Erik Itter
  *
  */
 public class Multiplikation {
@@ -41,8 +41,8 @@ public class Multiplikation {
 		for (;;) {
 			try {
 
-				int a = (int) ((Math.random() * upperLimit) + lowerLimit);
-				int b = (int) ((Math.random() * upperLimit) + lowerLimit);
+				int a = (int) ((Math.random() * (upperLimit - lowerLimit)) + lowerLimit);
+				int b = (int) ((Math.random() * (upperLimit - lowerLimit)) + lowerLimit);
 
 				System.out.print(a + " mal " + b + " = ");
 				numberOfExercises++;
