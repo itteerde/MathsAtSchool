@@ -63,6 +63,7 @@ public class OneTimesOne {
 					FileOutputStream fos = new FileOutputStream(fileName);
 					ObjectOutputStream oos = new ObjectOutputStream(fos);
 					oos.writeObject(results);
+					oos.close();
 					return;
 				}
 
