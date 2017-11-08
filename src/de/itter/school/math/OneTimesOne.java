@@ -13,11 +13,14 @@ import java.io.InputStreamReader;
  */
 public class OneTimesOne {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
+	private static final int MEMORY_LENGTH = 20;
 
+	private int[][][] results = new int[10][10][MEMORY_LENGTH];
+	private int[][] memory = new int[MEMORY_LENGTH][2];
+	private int successStreak = 0;
+	private int errorStreak = 0;
+
+	private void run() {
 		int numberOfExercises = 0;
 		long time = 0;
 		int correctAnswers = 0;
@@ -55,6 +58,32 @@ public class OneTimesOne {
 			}
 
 		}
+
+	}
+
+	private int compareTo(int[] a, int[] b) {
+		return -1;
+	}
+
+	private void anEasyOnePlease() {
+
+	}
+
+	private void theHardestOnePlease() {
+
+	}
+
+	private int randomInt(int min, int max) {
+		return (int) ((Math.random() * (max - min) + min));
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		OneTimesOne o = new OneTimesOne();
+		o.run();
 	}
 
 }
