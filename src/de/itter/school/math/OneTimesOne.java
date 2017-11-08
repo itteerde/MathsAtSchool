@@ -4,8 +4,12 @@
 package de.itter.school.math;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * @author Erik Itter
@@ -13,24 +17,35 @@ import java.io.InputStreamReader;
  */
 public class OneTimesOne {
 
-	private static final int MEMORY_LENGTH = 20;
+	private int[][] results = new int[10][10];
+	String fileName = null;
 
-	private int[][][] results = new int[10][10][MEMORY_LENGTH];
-	private int[][] memory = new int[MEMORY_LENGTH][2];
-	private int successStreak = 0;
-	private int errorStreak = 0;
-
-	private void run() {
+	private void run(String fileName) {
 		int numberOfExercises = 0;
 		long time = 0;
 		int correctAnswers = 0;
+		this.fileName = fileName;
+
+		if (fileName != null) {
+			try {
+				FileInputStream fis;
+				fis = new FileInputStream(fileName);
+				ObjectInputStream iis;
+				iis = new ObjectInputStream(fis);
+				results = (int[][]) iis.readObject();
+				iis.close();
+			} catch (ClassNotFoundException | IOException e) {
+				init();
+			}
+		}
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		for (;;) {
 			try {
 
-				int a = (int) ((Math.random() * 8) + 2);
-				int b = (int) ((Math.random() * 8) + 2);
+				int[] problem = theHardestOnePlease();
+				int a = problem[0];
+				int b = problem[1];
 
 				System.out.print(a + " mal " + b + " = ");
 				numberOfExercises++;
@@ -42,13 +57,21 @@ public class OneTimesOne {
 				time += end - start;
 
 				if (s.equals("exit")) {
+					if (fileName == null) {
+						return;
+					}
+					FileOutputStream fos = new FileOutputStream(fileName);
+					ObjectOutputStream oos = new ObjectOutputStream(fos);
+					oos.writeObject(results);
 					return;
 				}
 
 				if (!(Integer.parseInt(s) == a * b)) {// wrong
 					System.out.println("nein, " + a + " mal " + b + " ist: " + a * b + ".");
+					results[a - 1][b - 1] += 3;
 				} else {// correct
 					correctAnswers++;
+					results[a - 1][b - 1] += 11;
 				}
 
 				System.out.println(correctAnswers + "/" + numberOfExercises + " richtig, " + time / numberOfExercises
@@ -61,20 +84,32 @@ public class OneTimesOne {
 
 	}
 
-	private int compareTo(int[] a, int[] b) {
-		return -1;
+	/**
+	 * 
+	 */
+	private void init() {
+		for (int m = 0; m < 10; m++) {
+			for (int n = 0; n < 10; n++) {
+				results[m][n] = (int) (Math.random() * 10 + 1);
+			}
+		}
 	}
 
-	private void anEasyOnePlease() {
+	private int[] theHardestOnePlease() {
+		int[] hardest = { 0, 0 };
+		int worst = Integer.MAX_VALUE;
 
-	}
+		for (int m = 0; m < 10; m++) {
+			for (int n = 0; n < 10; n++) {
+				if (results[m][n] < worst) {
+					worst = results[m][n];
+					hardest[0] = m + 1;
+					hardest[1] = n + 1;
+				}
+			}
+		}
 
-	private void theHardestOnePlease() {
-
-	}
-
-	private int randomInt(int min, int max) {
-		return (int) ((Math.random() * (max - min) + min));
+		return hardest;
 	}
 
 	/**
@@ -83,7 +118,7 @@ public class OneTimesOne {
 	public static void main(String[] args) {
 
 		OneTimesOne o = new OneTimesOne();
-		o.run();
+		o.run(args.length > 0 ? args[0] : null);
 	}
 
 }
